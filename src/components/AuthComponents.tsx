@@ -12,7 +12,11 @@ export function SignIn({
         await signIn(provider)
       }}
     >
-      <Button type="submit" {...props}>
+      <Button
+        type="submit"
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        {...props}
+      >
         Sign In
       </Button>
     </form>
