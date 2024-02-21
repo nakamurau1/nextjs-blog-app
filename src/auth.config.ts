@@ -10,11 +10,20 @@ export const authConfig = {
       const isLoggedIn = !!auth?.user
       if (isLoggedIn) {
         // ログイン中の場合
-        const user = await fetchUserByEmail(auth?.user?.email ?? '')
+        const dbUser = await fetchUserByEmail(auth?.user?.email ?? '')
         const isOnAuthInit = nextUrl.pathname.startsWith('/auth/init')
-        if (!user && !isOnAuthInit) {
-          // 初回登録の場合はユーザー登録画面にリダイレクト
-          return Response.redirect(new URL('/auth/init', nextUrl))
+        if (dbUser) {
+          // 登録済みの場合
+          if (isOnAuthInit) {
+            // ユーザー登録画面にはアクセスできない
+            return Response.redirect(new URL('/', nextUrl))
+          }
+        } else {
+          // 未登録の場合
+          if (!isOnAuthInit) {
+            // 初回登録の場合はユーザー登録画面にリダイレクト
+            return Response.redirect(new URL('/auth/init', nextUrl))
+          }
         }
 
         return true
