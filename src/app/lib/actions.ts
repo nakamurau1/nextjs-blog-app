@@ -5,9 +5,10 @@ import { auth } from '@/auth'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { fetchUserByEmail, fetchUserById } from '@/app/lib/data'
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@prisma/client/edge'
+import { withAccelerate } from '@prisma/extension-accelerate'
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient().$extends(withAccelerate())
 
 // 初回登録の入力スキーマ
 const UserFormSchema = z.object({
