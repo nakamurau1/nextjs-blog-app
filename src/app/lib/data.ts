@@ -1,39 +1,40 @@
-import { sql } from '@vercel/postgres'
 import { unstable_noStore as noStore } from 'next/cache'
-import { User, Post } from './definition'
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient()
 
 // メールアドレスをキーにしてUserを取得する
 export const fetchUserByEmail = async (email: string) => {
   noStore()
 
   try {
-    const data = await sql<User>`SELECT * FROM users WHERE email = ${email}`
+    const user = await prisma.user.findFirst({
+      where: {
+        email
+      }
+    })
 
-    const user = data.rows.map(user => ({
-      ...user
-    }))
-
-    return user[0]
+    return user
   } catch (error) {
     console.error('Database Error:', error)
-    throw new Error('Failed to fetch invoice.')
+    throw new Error('Failed to fetch user.')
   }
 }
 
-// idをキーにしてUserを取得する
+// PrismaでidをキーにしてUserを取得する
 export const fetchUserById = async (id: string) => {
   noStore()
 
   try {
-    const data = await sql<User>`SELECT * FROM users WHERE id = ${id}`
+    const user = await prisma.user.findUnique({
+      where: {
+        id
+      }
+    })
 
-    const user = data.rows.map(user => ({
-      ...user
-    }))
-
-    return user[0]
+    return user
   } catch (error) {
     console.error('Database Error:', error)
-    throw new Error('Failed to fetch invoice.')
+    throw new Error('Failed to fetch user.')
   }
 }

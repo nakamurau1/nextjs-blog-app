@@ -1,11 +1,13 @@
 'use server'
 
 import { z } from 'zod'
-import { sql } from '@vercel/postgres'
 import { auth } from '@/auth'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { fetchUserByEmail, fetchUserById } from '@/app/lib/data'
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient()
 
 // 初回登録の入力スキーマ
 const UserFormSchema = z.object({
@@ -83,10 +85,15 @@ export const createUser = async (
   }
 
   try {
-    await sql`
-  INSERT INTO users (id, name, email, profile_image)
-  VALUES (${id}, ${name}, ${email}, ${profile_image})
-  `
+    // User作成
+    await prisma.user.create({
+      data: {
+        id,
+        name,
+        email,
+        profile_image
+      }
+    })
   } catch (error) {
     return {
       message: 'ユーザーの作成に失敗しました'
