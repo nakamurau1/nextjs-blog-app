@@ -1,15 +1,12 @@
 import { unstable_noStore as noStore } from 'next/cache'
-import { PrismaClient } from '@prisma/client/edge'
-import { withAccelerate } from '@prisma/extension-accelerate'
-
-const prisma = new PrismaClient().$extends(withAccelerate())
+import prismaClient from '@/app/lib/prismaClient'
 
 // メールアドレスをキーにしてUserを取得する
 export const fetchUserByEmail = async (email: string) => {
   noStore()
 
   try {
-    const user = await prisma.user.findUnique({
+    const user = await prismaClient.user.findUnique({
       where: {
         email
       }
@@ -27,7 +24,7 @@ export const fetchUserById = async (id: string) => {
   noStore()
 
   try {
-    const user = await prisma.user.findUnique({
+    const user = await prismaClient.user.findUnique({
       where: {
         id
       }

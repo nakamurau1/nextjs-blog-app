@@ -5,10 +5,7 @@ import { auth } from '@/auth'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { fetchUserByEmail, fetchUserById } from '@/app/lib/data'
-import { PrismaClient } from '@prisma/client/edge'
-import { withAccelerate } from '@prisma/extension-accelerate'
-
-const prisma = new PrismaClient().$extends(withAccelerate())
+import prismaClient from '@/app/lib/prismaClient'
 
 // 初回登録の入力スキーマ
 const UserFormSchema = z.object({
@@ -87,7 +84,7 @@ export const createUser = async (
 
   try {
     // User作成
-    await prisma.user.create({
+    await prismaClient.user.create({
       data: {
         id,
         name,
