@@ -51,18 +51,6 @@ const Navbar = ({ path }: NavbarProps) => {
             <Logo />
           </h1>
         </div>
-
-        {/* <div className="hidden md:flex md:flex-grow md:justify-between">
-          <LinkItem
-            href="https://github.com/nakamurau1/homepage"
-            path={path}
-            target="_blank"
-            className="inline-flex items-center gap-4 pl-2"
-          >
-            <IoLogoGithub />
-            Source
-          </LinkItem>
-        </div> */}
       </div>
     </nav>
   )

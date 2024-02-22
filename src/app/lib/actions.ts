@@ -25,7 +25,16 @@ const UserFormSchema = z.object({
   profile_image: z.string()
 })
 
-export type State = {
+// 投稿の入力スキーマ
+const PostFormSchema = z.object({
+  title: z
+    .string()
+    .min(1, { message: 'タイトルを入力してください' })
+    .max(100, { message: 'タイトルは100文字以内にしてください' }),
+  markdown: z.string().min(1, { message: '本文を入力してください' }).max(30000)
+})
+
+export type AuthInitState = {
   errors?: {
     id?: string[]
     email?: string[]
@@ -35,10 +44,18 @@ export type State = {
   message?: string | null
 }
 
+export type PostState = {
+  errors?: {
+    title?: string[]
+    markdown?: string[]
+  }
+  message?: string | null
+}
+
 export const createUser = async (
-  _prevState: State,
+  _prevState: AuthInitState,
   formData: FormData
-): Promise<State> => {
+): Promise<AuthInitState> => {
   const session = await auth()
   const sessionUser = session?.user
   if (!sessionUser) {
@@ -100,4 +117,58 @@ export const createUser = async (
 
   revalidatePath('/dashboard')
   redirect('/dashboard')
+}
+
+export const createPost = async (_prevState: PostState, formData: FormData) => {
+  const session = await auth()
+  const sessionUser = session?.user
+  if (!sessionUser) {
+    return {
+      errors: {},
+      message: 'ログインしていません'
+    }
+  }
+  const userByEmail = await fetchUserByEmail(sessionUser.email ?? '')
+  if (!userByEmail) {
+    return {
+      errors: {},
+      message: '投稿にはユーザー登録が必要です'
+    }
+  }
+
+  const validateFields = PostFormSchema.safeParse({
+    title: formData.get('title'),
+    markdown: formData.get('markdown')
+  })
+
+  if (!validateFields.success) {
+    return {
+      errors: validateFields.error.flatten().fieldErrors,
+      message: ''
+    }
+  }
+
+  const { title, markdown } = validateFields.data
+
+  try {
+    // Post作成
+    await prismaClient.post.create({
+      data: {
+        title,
+        content: markdown,
+        published: false,
+        user: {
+          connect: {
+            id: userByEmail.id
+          }
+        }
+      }
+    })
+    revalidatePath('/posts/new')
+    return {}
+  } catch (error) {
+    return {
+      message: '投稿に失敗しました'
+    }
+  }
 }
