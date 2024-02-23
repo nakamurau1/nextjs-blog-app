@@ -1,26 +1,30 @@
+import NextLink from 'next/link'
 import React from 'react'
 import { cn } from '@/app/lib/utils'
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface Props extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   children?: React.ReactNode
+  href: string
   mode?: 'primary'
 }
 
-export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ children, mode, className, ...rest }, ref) => {
+export const Link = React.forwardRef<HTMLAnchorElement, Props>(
+  ({ children, href, mode, className, ...rest }, ref) => {
     return (
-      <button
+      <NextLink
+        href={href}
         ref={ref}
-        {...rest}
         className={cn(
           mode === 'primary' &&
             'bg-blue-400 hover:bg-blue-500 text-white text-sm font-bold py-2 px-4 rounded-full',
           className
         )}
+        {...rest}
       >
         {children}
-      </button>
+      </NextLink>
     )
   }
 )
-Button.displayName = 'Button'
+
+Link.displayName = 'Link'

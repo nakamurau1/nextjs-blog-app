@@ -184,7 +184,7 @@ const Header = () => {
         </Link>
         <Button
           type="submit"
-          className="bg-blue-400 hover:bg-blue-500 text-white text-sm font-bold py-2 px-4 rounded-full"
+          mode="primary"
           aria-disabled={pending}
           disabled={pending}
         >

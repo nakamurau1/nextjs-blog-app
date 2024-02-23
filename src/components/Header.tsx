@@ -1,7 +1,7 @@
 import NavBar from '@/components/Navbar'
 import UserButton from '@/components/UserButton'
 import { auth } from '@/auth'
-import Link from 'next/link'
+import { Link } from '@/components/Link'
 
 export default async function Header() {
   const session = await auth()
@@ -17,12 +17,7 @@ export default async function Header() {
           <UserButton />
           {/* ログイン済みの場合のみPostボタンを表示する */}
           {isLoggedIn && (
-            <Link
-              href="/posts/new"
-              className={
-                'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-8'
-              }
-            >
+            <Link href="/posts/new" mode="primary" className={'ml-8'}>
               投稿する
             </Link>
           )}
