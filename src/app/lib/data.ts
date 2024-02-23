@@ -69,3 +69,33 @@ export const fetchSessionUserPosts = async () => {
     throw new Error('Failed to fetch posts.')
   }
 }
+
+// Postを取得する
+export const fetchPostById = async (id: string) => {
+  noStore()
+
+  const session = await auth()
+  const sessionUser = session?.user
+  if (!sessionUser) {
+    throw new Error('Failed to fetch session user.')
+  }
+
+  const dbUser = await fetchUserByEmail(sessionUser.email ?? '')
+  if (!dbUser) {
+    throw new Error('Failed to fetch user.')
+  }
+
+  try {
+    const post = await prismaClient.post.findUnique({
+      where: {
+        id,
+        user_id: dbUser.id
+      }
+    })
+
+    return post
+  } catch (error) {
+    console.error('Database Error:', error)
+    throw new Error('Failed to fetch post.')
+  }
+}

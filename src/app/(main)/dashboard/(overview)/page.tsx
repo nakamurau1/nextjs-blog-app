@@ -1,6 +1,7 @@
 import { FaPenFancy, FaPlay } from 'react-icons/fa6'
 import { fetchSessionUserPosts } from '@/app/lib/data'
 import { timeAgo } from '@/app/lib/utils'
+import NextLink from 'next/link'
 
 export default async function Page() {
   const posts = await fetchSessionUserPosts()
@@ -15,17 +16,22 @@ export default async function Page() {
             return (
               <article className="py-5 border-b border-gray-200" key={post.id}>
                 <div className="flex">
-                  <div className="flex-1 text-xl font-bold overflow-hidden">
-                    {post.title}
-                  </div>
+                  <NextLink
+                    href={`/posts/edit?postId=${post.id}`}
+                    className="flex-1 text-xl font-bold overflow-hidden"
+                  >
+                    <div className="flex-1 text-xl font-bold overflow-hidden">
+                      {post.title}
+                    </div>
+                  </NextLink>
                   <div>
-                    <button
-                      aria-label="編集モード"
+                    <NextLink
+                      aria-label="編集する"
                       className="h-9 w-9   p-2 flex items-center justify-center z-10 rounded-full text-gray-400 bg-gray-100 hover:bg-blue-50 hover:text-blue-500"
-                      type="button"
+                      href={`/posts/edit?postId=${post.id}`}
                     >
                       <FaPenFancy width={21} height={21} />
-                    </button>
+                    </NextLink>
                   </div>
                 </div>
                 <div className="flex items-center mt-2.5">

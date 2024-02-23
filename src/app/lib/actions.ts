@@ -27,6 +27,7 @@ const UserFormSchema = z.object({
 
 // 投稿の入力スキーマ
 const PostFormSchema = z.object({
+  id: z.string().nullable(),
   title: z
     .string()
     .min(1, { message: 'タイトルを入力してください' })
@@ -119,7 +120,7 @@ export const createUser = async (
   redirect('/dashboard')
 }
 
-export const createPost = async (_prevState: PostState, formData: FormData) => {
+export const upsertPost = async (_prevState: PostState, formData: FormData) => {
   const session = await auth()
   const sessionUser = session?.user
   if (!sessionUser) {
@@ -137,6 +138,7 @@ export const createPost = async (_prevState: PostState, formData: FormData) => {
   }
 
   const validateFields = PostFormSchema.safeParse({
+    id: formData.get('id'),
     title: formData.get('title'),
     markdown: formData.get('markdown')
   })
@@ -148,27 +150,43 @@ export const createPost = async (_prevState: PostState, formData: FormData) => {
     }
   }
 
-  const { title, markdown } = validateFields.data
+  const { id, title, markdown } = validateFields.data
 
   try {
-    // Post作成
-    await prismaClient.post.create({
-      data: {
-        title,
-        content: markdown,
-        published: false,
-        user: {
-          connect: {
-            id: userByEmail.id
+    if (id === null) {
+      // Post作成
+      await prismaClient.post.create({
+        data: {
+          title,
+          content: markdown,
+          published: false,
+          user: {
+            connect: {
+              id: userByEmail.id
+            }
           }
         }
-      }
-    })
-    revalidatePath('/posts/new')
+      })
+      revalidatePath('/posts/new')
+    } else {
+      // Post更新
+      await prismaClient.post.update({
+        where: {
+          id,
+          user_id: userByEmail.id
+        },
+        data: {
+          title,
+          content: markdown
+        }
+      })
+      revalidatePath(`/posts/edit?postId=${id}`)
+    }
+
     return {}
   } catch (error) {
     return {
-      message: '投稿に失敗しました'
+      message: '保存に失敗しました'
     }
   }
 }
