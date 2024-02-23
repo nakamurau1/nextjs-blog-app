@@ -1,5 +1,5 @@
 import type { NextAuthConfig } from 'next-auth'
-import { fetchUserByEmail } from '@/app/lib/data'
+import prismaClient from '@/app/lib/prismaClient'
 
 export const authConfig = {
   // pages: {
@@ -42,3 +42,19 @@ export const authConfig = {
   },
   providers: [] // Add providers with an empty array for now
 } satisfies NextAuthConfig
+
+// 循環参照を避けるために、ここに関数を定義する
+const fetchUserByEmail = async (email: string) => {
+  try {
+    const user = await prismaClient.user.findUnique({
+      where: {
+        email
+      }
+    })
+
+    return user
+  } catch (error) {
+    console.error('Database Error:', error)
+    throw new Error('Failed to fetch user.')
+  }
+}

@@ -1,3 +1,4 @@
+import { auth } from '@/auth'
 import { unstable_noStore as noStore } from 'next/cache'
 import prismaClient from '@/app/lib/prismaClient'
 
@@ -34,5 +35,37 @@ export const fetchUserById = async (id: string) => {
   } catch (error) {
     console.error('Database Error:', error)
     throw new Error('Failed to fetch user.')
+  }
+}
+
+// ログイン中のユーザー（セッションから取得）の記事の一覧を取得する
+export const fetchSessionUserPosts = async () => {
+  noStore()
+
+  const session = await auth()
+  const sessionUser = session?.user
+  if (!sessionUser) {
+    throw new Error('Failed to fetch session user.')
+  }
+
+  const dbUser = await fetchUserByEmail(sessionUser.email ?? '')
+  if (!dbUser) {
+    throw new Error('Failed to fetch user.')
+  }
+
+  try {
+    const posts = await prismaClient.post.findMany({
+      where: {
+        user_id: dbUser.id
+      },
+      orderBy: {
+        updated_at: 'desc'
+      }
+    })
+
+    return posts
+  } catch (error) {
+    console.error('Database Error:', error)
+    throw new Error('Failed to fetch posts.')
   }
 }
