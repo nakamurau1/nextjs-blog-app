@@ -99,14 +99,18 @@ export default function Page() {
               </div>
             ) : (
               // プレビューモード
-              <div
-                className="znc flex-1 w-full min-h-[800px] rounded-lg border-none outline-0 resize-none p-5 bg-white relative
+              <>
+                <div
+                  className="znc flex-1 w-full min-h-[800px] rounded-lg border-none outline-0 resize-none p-5 bg-white relative
             before:absolute before:top-0 before:right-0 before:inline-block before:p-2 before:text-xs before:font-bold
            before:text-white before:content-['Preview'] before:bg-gray-400 before:rounded-md"
-                dangerouslySetInnerHTML={{
-                  __html: html
-                }}
-              />
+                  dangerouslySetInnerHTML={{
+                    __html: html
+                  }}
+                />
+                {/* プレビューモードでも保存できるようにする */}
+                <input type="hidden" {...register('markdown')} />
+              </>
             )}
             <div className="max-w-20 min-w-20 ml-5 relative">
               <EditModeButton mode={mode} handleModeChange={handleModeChange} />

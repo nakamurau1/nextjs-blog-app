@@ -4,7 +4,6 @@ import { timeAgo } from '@/app/lib/utils'
 
 export default async function Page() {
   const posts = await fetchSessionUserPosts()
-  console.log('🔥 posts:', posts)
 
   return (
     <div className="space-y-2">
@@ -40,7 +39,7 @@ export default async function Page() {
                     </span>
                   )}
                   <time className="text-xs text-gray-500">
-                    {timeAgo(post.updated_at)}前に最終更新・
+                    {timeAgo(post.updated_at)}最終更新・
                     {post.content.length}文字
                   </time>
                 </div>
