@@ -9,6 +9,7 @@ import TextareaAutosize from 'react-textarea-autosize'
 import { GoArrowLeft } from 'react-icons/go'
 import Link from 'next/link'
 import { createPost } from '@/app/lib/actions'
+import { FaPenFancy, FaPlay } from 'react-icons/fa6'
 import { Button } from '@/components/Button'
 import { useFormState, useFormStatus } from 'react-dom'
 
@@ -143,12 +144,7 @@ const EditModeButton = ({
           handleModeChange('edit')
         }}
       >
-        <svg viewBox="0 0 27 27" height="21" width="21">
-          <path
-            fill="currentColor"
-            d="M23.46,6.35,21.37,4.27a2.57,2.57,0,0,0-3.66,0L5.08,16.9,4.6,21.19a1.76,1.76,0,0,0,1.94,1.93l4.28-.47L23.46,10A2.59,2.59,0,0,0,23.46,6.35ZM10,20.89l-3.54.39.4-3.54,9-9L19,11.86ZM22.16,8.71l-1.85,1.85L17.16,7.42,19,5.57a.74.74,0,0,1,1.06,0l2.09,2.08a.75.75,0,0,1,0,1.06Z"
-          ></path>
-        </svg>
+        <FaPenFancy width={21} height={21} />
       </button>
       <button
         aria-label="プレビュー"
@@ -162,12 +158,7 @@ const EditModeButton = ({
           handleModeChange('preview')
         }}
       >
-        <svg viewBox="0 0 27 27" height="13" width="13">
-          <path
-            fill="currentColor"
-            d="M7.75,26a3.17,3.17,0,0,1-1.6-.4,3.24,3.24,0,0,1-1.7-2.9V4.23a3.45,3.45,0,0,1,1.7-2.9,3.44,3.44,0,0,1,3.4.2l14.5,9.3a3.11,3.11,0,0,1,1.5,2.8,3.32,3.32,0,0,1-1.5,2.8l-14.5,9.1A2.9,2.9,0,0,1,7.75,26Zm0-22.1h-.1c-.1.1-.2.2-.2.3v18.5c0,.2.1.3.2.3A.19.19,0,0,0,8,23l14.5-9.3c.1-.1.1-.1.1-.2s0-.2-.1-.2L8,4C7.85,4,7.85,3.93,7.75,3.93Z"
-          ></path>
-        </svg>
+        <FaPlay width={10} height={10} />
       </button>
     </div>
   )
