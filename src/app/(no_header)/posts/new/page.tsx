@@ -143,6 +143,7 @@ const EditModeButton = ({
         onClick={() => {
           handleModeChange('edit')
         }}
+        type="button"
       >
         <FaPenFancy width={21} height={21} />
       </button>
@@ -157,6 +158,7 @@ const EditModeButton = ({
         onClick={() => {
           handleModeChange('preview')
         }}
+        type="button"
       >
         <FaPlay width={10} height={10} />
       </button>
