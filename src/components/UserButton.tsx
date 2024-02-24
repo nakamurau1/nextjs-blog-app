@@ -9,6 +9,7 @@ import {
   DropdownMenuTrigger
 } from '@/components/DropDownMenu'
 import { SignIn, SignOut } from '@/components/AuthComponents'
+import Link from 'next/link'
 
 export default async function UserButton() {
   const session = await auth()
@@ -39,6 +40,11 @@ export default async function UserButton() {
             </p>
           </div>
         </DropdownMenuLabel>
+        <DropdownMenuItem>
+          <Link href="/dashboard" className="w-full text-center">
+            ダッシュボード
+          </Link>
+        </DropdownMenuItem>
         <DropdownMenuItem>
           <SignOut />
         </DropdownMenuItem>
