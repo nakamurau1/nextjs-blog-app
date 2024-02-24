@@ -4,7 +4,7 @@ import markdownToHtml from 'zenn-markdown-html'
 import 'zenn-content-css'
 import { useState } from 'react'
 import clsx from 'clsx'
-import { useForm, Controller, Control } from 'react-hook-form'
+import { useForm, Control } from 'react-hook-form'
 import TextareaAutosize from 'react-textarea-autosize'
 import { GoArrowLeft } from 'react-icons/go'
 import Link from 'next/link'
@@ -14,7 +14,7 @@ import { Button } from '@/components/Button'
 import { useFormState, useFormStatus } from 'react-dom'
 import { Post } from '@prisma/client'
 import React from 'react'
-import * as ReactSwitch from '@radix-ui/react-switch'
+import Switch from '@/components/SwitchRHF'
 
 // 編集またはプレビューモード
 type Mode = 'edit' | 'preview'
@@ -213,38 +213,7 @@ const Header = ({
           <GoArrowLeft className=" text-gray-500 text-2xl" />
         </Link>
         <div className="flex items-center">
-          <Controller
-            name="published"
-            control={control}
-            render={({ field }) => {
-              const { value, ...otherField } = field
-
-              return (
-                <>
-                  <ReactSwitch.Root
-                    className="w-[42px] h-[25px] bg-gray-400 rounded-full relative  data-[state=checked]:bg-blue-400 outline-none cursor-default"
-                    {...otherField}
-                    defaultChecked={field.value}
-                    checked={field.value}
-                    value={field.value.toString()}
-                    onCheckedChange={checked => {
-                      field.onChange(checked)
-                    }}
-                  >
-                    <ReactSwitch.Thumb className="block w-[21px] h-[21px] bg-white rounded-full transition-transform duration-100 translate-x-0.5 will-change-transform data-[state=checked]:translate-x-[19px]" />
-                  </ReactSwitch.Root>
-                  <label
-                    className={clsx(
-                      'ml-1 font-bold text-[15px] leading-none',
-                      field.value ? 'text-black' : 'text-gray-500'
-                    )}
-                  >
-                    公開する
-                  </label>
-                </>
-              )
-            }}
-          />
+          <Switch control={control} name="published" label="公開する" />
           <Button
             type="submit"
             mode="primary"
