@@ -203,4 +203,6 @@ export const upsertPost = async (_prevState: PostState, formData: FormData) => {
   if (needRedirect) {
     redirect(redirectPath)
   }
+
+  return {}
 }
