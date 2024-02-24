@@ -15,6 +15,7 @@ import { useFormState, useFormStatus } from 'react-dom'
 import { Post } from '@prisma/client'
 import React from 'react'
 import Switch from '@/components/SwitchRHF'
+import { isEmpty } from '@/app/lib/utils'
 
 // 編集またはプレビューモード
 type Mode = 'edit' | 'preview'
@@ -30,6 +31,7 @@ export default function Page({ post }: { post?: Post | null }) {
     register,
     getValues,
     control,
+    watch,
     formState: { isDirty }
   } = useForm({
     defaultValues: {
@@ -39,6 +41,8 @@ export default function Page({ post }: { post?: Post | null }) {
       published: post?.published ?? false
     }
   })
+
+  const published = watch('published')
 
   const handleModeChange = (mode: Mode) => {
     setMode(mode)
@@ -62,7 +66,12 @@ export default function Page({ post }: { post?: Post | null }) {
 
   return (
     <form action={dispatch}>
-      <Header isDirty={isDirty} control={control} />
+      <Header
+        isDirty={isDirty}
+        control={control}
+        published={published}
+        newMode={isEmpty(post?.id)} // post.idが空の場合は新規作成モード
+      />
       <main className="flex-auto w-full max-w-4xl px-4 py-2 mx-auto">
         <div className="flex flex-col items-center justify-center p-6">
           <div aria-live="polite" aria-atomic="true">
@@ -184,27 +193,30 @@ const EditModeButton = ({
 
 const Header = ({
   isDirty,
-  control
+  control,
+  published,
+  newMode
 }: {
   isDirty: boolean
-  control: Control<
-    {
-      id: string | null
-      title: string
-      markdown: string
-      published: boolean
-    },
-    any,
-    {
-      id: string | null
-      title: string
-      markdown: string
-      published: boolean
-    }
-  >
+  control: Control<any>
+  published: boolean
+  newMode: boolean
 }) => {
   const { pending } = useFormStatus()
   const disabled = pending || !isDirty
+
+  let buttonTitle = ''
+  if (pending) {
+    buttonTitle = '保存中...'
+  } else if (isDirty) {
+    if (published) {
+      buttonTitle = newMode ? '公開する' : '更新する'
+    } else {
+      buttonTitle = '下書き保存'
+    }
+  } else {
+    buttonTitle = '保存済み'
+  }
 
   return (
     <header className="sticky top-0 border-b border-solid border-gray-100 z-50">
@@ -222,7 +234,7 @@ const Header = ({
             className="inline-flex justify-center items-center ml-3"
           >
             {!isDirty ? <FaCheck className="mr-1" /> : null}
-            {pending ? '保存中...' : isDirty ? '下書き保存' : '保存済み'}
+            {buttonTitle}
           </Button>
         </div>
       </div>

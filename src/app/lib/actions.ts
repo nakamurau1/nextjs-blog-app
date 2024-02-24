@@ -156,10 +156,12 @@ export const upsertPost = async (_prevState: PostState, formData: FormData) => {
 
   const { id, title, markdown, published } = validateFields.data
 
+  let needRedirect = false
+  let redirectPath = ''
   try {
     if (isEmpty(id) || id === null) {
       // Post作成
-      await prismaClient.post.create({
+      const post = await prismaClient.post.create({
         data: {
           title,
           content: markdown,
@@ -171,7 +173,9 @@ export const upsertPost = async (_prevState: PostState, formData: FormData) => {
           }
         }
       })
-      revalidatePath('/posts/new')
+
+      needRedirect = true
+      redirectPath = `/posts/edit?postId=${post.id}`
     } else {
       // Post更新
       await prismaClient.post.update({
@@ -185,14 +189,18 @@ export const upsertPost = async (_prevState: PostState, formData: FormData) => {
           published: published
         }
       })
-      revalidatePath(`/posts/edit?postId=${id}`)
-    }
 
-    return {}
+      redirectPath = `/posts/edit?postId=${id}`
+    }
   } catch (error) {
     console.error(error)
     return {
       message: '保存に失敗しました'
     }
+  }
+
+  revalidatePath(redirectPath)
+  if (needRedirect) {
+    redirect(redirectPath)
   }
 }
