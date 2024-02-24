@@ -6,6 +6,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { fetchUserByEmail, fetchUserById } from '@/app/lib/data'
 import prismaClient from '@/app/lib/prismaClient'
+import { isEmpty } from '@/app/lib/utils'
 
 // 初回登録の入力スキーマ
 const UserFormSchema = z.object({
@@ -153,7 +154,7 @@ export const upsertPost = async (_prevState: PostState, formData: FormData) => {
   const { id, title, markdown } = validateFields.data
 
   try {
-    if (id === null) {
+    if (isEmpty(id) || id === null) {
       // Post作成
       await prismaClient.post.create({
         data: {
@@ -185,6 +186,7 @@ export const upsertPost = async (_prevState: PostState, formData: FormData) => {
 
     return {}
   } catch (error) {
+    console.error(error)
     return {
       message: '保存に失敗しました'
     }

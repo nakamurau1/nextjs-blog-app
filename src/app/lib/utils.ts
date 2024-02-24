@@ -39,3 +39,8 @@ export function timeAgo(date: Date | null) {
   const years = Math.floor(months / 12)
   return `${years}年前`
 }
+
+// nullまたはundefinedまたは空文字列の場合にtrueを返す
+export function isEmpty(value: any) {
+  return value === null || value === undefined || value === ''
+}
