@@ -14,7 +14,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...rest}
         className={cn(
           mode === 'primary' &&
-            'bg-blue-400 hover:bg-blue-500 text-white text-sm font-bold py-2 px-4 rounded-full',
+            `bg-blue-400 hover:bg-blue-500 text-white text-sm font-bold py-2 px-4 rounded-full
+            disabled:opacity-70 disabled:cursor-auto disabled:hover:bg-blue-400`,
           className
         )}
       >

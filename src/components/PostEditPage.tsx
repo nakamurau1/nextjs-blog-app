@@ -4,15 +4,17 @@ import markdownToHtml from 'zenn-markdown-html'
 import 'zenn-content-css'
 import { useState } from 'react'
 import clsx from 'clsx'
-import { useForm } from 'react-hook-form'
+import { useForm, Controller, Control } from 'react-hook-form'
 import TextareaAutosize from 'react-textarea-autosize'
 import { GoArrowLeft } from 'react-icons/go'
 import Link from 'next/link'
 import { upsertPost } from '@/app/lib/actions'
-import { FaPenFancy, FaPlay } from 'react-icons/fa6'
+import { FaPenFancy, FaPlay, FaCheck } from 'react-icons/fa6'
 import { Button } from '@/components/Button'
 import { useFormState, useFormStatus } from 'react-dom'
 import { Post } from '@prisma/client'
+import React from 'react'
+import * as ReactSwitch from '@radix-ui/react-switch'
 
 // 編集またはプレビューモード
 type Mode = 'edit' | 'preview'
@@ -24,11 +26,17 @@ export default function Page({ post }: { post?: Post | null }) {
   // モードを保持する
   const [mode, setMode] = useState('edit' as Mode)
 
-  const { register, getValues } = useForm({
+  const {
+    register,
+    getValues,
+    control,
+    formState: { isDirty }
+  } = useForm({
     defaultValues: {
       id: post?.id ?? null,
       title: post?.title ?? '',
-      markdown: post?.content ?? ''
+      markdown: post?.content ?? '',
+      published: post?.published ?? false
     }
   })
 
@@ -54,7 +62,7 @@ export default function Page({ post }: { post?: Post | null }) {
 
   return (
     <form action={dispatch}>
-      <Header />
+      <Header isDirty={isDirty} control={control} />
       <main className="flex-auto w-full max-w-4xl px-4 py-2 mx-auto">
         <div className="flex flex-col items-center justify-center p-6">
           <div aria-live="polite" aria-atomic="true">
@@ -174,8 +182,29 @@ const EditModeButton = ({
   )
 }
 
-const Header = () => {
+const Header = ({
+  isDirty,
+  control
+}: {
+  isDirty: boolean
+  control: Control<
+    {
+      id: string | null
+      title: string
+      markdown: string
+      published: boolean
+    },
+    any,
+    {
+      id: string | null
+      title: string
+      markdown: string
+      published: boolean
+    }
+  >
+}) => {
   const { pending } = useFormStatus()
+  const disabled = pending || !isDirty
 
   return (
     <header className="sticky top-0 border-b border-solid border-gray-100 z-50">
@@ -183,14 +212,50 @@ const Header = () => {
         <Link href="/dashboard">
           <GoArrowLeft className=" text-gray-500 text-2xl" />
         </Link>
-        <Button
-          type="submit"
-          mode="primary"
-          aria-disabled={pending}
-          disabled={pending}
-        >
-          下書き保存
-        </Button>
+        <div className="flex items-center">
+          <Controller
+            name="published"
+            control={control}
+            render={({ field }) => {
+              const { value, ...otherField } = field
+
+              return (
+                <>
+                  <ReactSwitch.Root
+                    className="w-[42px] h-[25px] bg-gray-400 rounded-full relative  data-[state=checked]:bg-blue-400 outline-none cursor-default"
+                    {...otherField}
+                    defaultChecked={field.value}
+                    checked={field.value}
+                    value={field.value.toString()}
+                    onCheckedChange={checked => {
+                      field.onChange(checked)
+                    }}
+                  >
+                    <ReactSwitch.Thumb className="block w-[21px] h-[21px] bg-white rounded-full transition-transform duration-100 translate-x-0.5 will-change-transform data-[state=checked]:translate-x-[19px]" />
+                  </ReactSwitch.Root>
+                  <label
+                    className={clsx(
+                      'ml-1 font-bold text-[15px] leading-none',
+                      field.value ? 'text-black' : 'text-gray-500'
+                    )}
+                  >
+                    公開する
+                  </label>
+                </>
+              )
+            }}
+          />
+          <Button
+            type="submit"
+            mode="primary"
+            aria-disabled={disabled}
+            disabled={disabled}
+            className="inline-flex justify-center items-center ml-3"
+          >
+            {!isDirty ? <FaCheck className="mr-1" /> : null}
+            {pending ? '保存中...' : isDirty ? '下書き保存' : '保存済み'}
+          </Button>
+        </div>
       </div>
     </header>
   )

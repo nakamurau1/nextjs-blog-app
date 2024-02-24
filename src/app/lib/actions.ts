@@ -33,7 +33,8 @@ const PostFormSchema = z.object({
     .string()
     .min(1, { message: 'タイトルを入力してください' })
     .max(100, { message: 'タイトルは100文字以内にしてください' }),
-  markdown: z.string().min(1, { message: '本文を入力してください' }).max(30000)
+  markdown: z.string().min(1, { message: '本文を入力してください' }).max(30000),
+  published: z.boolean()
 })
 
 export type AuthInitState = {
@@ -50,6 +51,7 @@ export type PostState = {
   errors?: {
     title?: string[]
     markdown?: string[]
+    published?: string[]
   }
   message?: string | null
 }
@@ -141,7 +143,8 @@ export const upsertPost = async (_prevState: PostState, formData: FormData) => {
   const validateFields = PostFormSchema.safeParse({
     id: formData.get('id'),
     title: formData.get('title'),
-    markdown: formData.get('markdown')
+    markdown: formData.get('markdown'),
+    published: formData.get('published') == 'true'
   })
 
   if (!validateFields.success) {
@@ -151,7 +154,7 @@ export const upsertPost = async (_prevState: PostState, formData: FormData) => {
     }
   }
 
-  const { id, title, markdown } = validateFields.data
+  const { id, title, markdown, published } = validateFields.data
 
   try {
     if (isEmpty(id) || id === null) {
@@ -160,7 +163,7 @@ export const upsertPost = async (_prevState: PostState, formData: FormData) => {
         data: {
           title,
           content: markdown,
-          published: false,
+          published: published,
           user: {
             connect: {
               id: userByEmail.id
@@ -178,7 +181,8 @@ export const upsertPost = async (_prevState: PostState, formData: FormData) => {
         },
         data: {
           title,
-          content: markdown
+          content: markdown,
+          published: published
         }
       })
       revalidatePath(`/posts/edit?postId=${id}`)
