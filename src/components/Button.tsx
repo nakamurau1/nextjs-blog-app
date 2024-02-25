@@ -1,9 +1,9 @@
 import React from 'react'
-import { cn } from '@/app/lib/utils'
+import { cn } from '@/app/_lib/utils'
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children?: React.ReactNode
-  mode?: 'primary'
+  mode?: 'primary' | 'secondary'
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -14,8 +14,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...rest}
         className={cn(
           mode === 'primary' &&
-            `bg-blue-400 hover:bg-blue-500 text-white text-sm font-bold py-2 px-4 rounded-full
+            `bg-blue-400 text-white hover:bg-blue-500 text-sm font-bold py-2 px-4 rounded-full
             disabled:opacity-70 disabled:cursor-auto disabled:hover:bg-blue-400`,
+          mode === 'secondary' &&
+            `bg-gray-50 text-black border-gray-300 hover:bg-gray-100 text-sm font-bold py-2 px-4 rounded-full border
+            disabled:opacity-70 disabled:cursor-auto`,
           className
         )}
       >

@@ -1,6 +1,6 @@
 import { auth } from '@/auth'
 import { unstable_noStore as noStore } from 'next/cache'
-import prismaClient from '@/app/lib/prismaClient'
+import prismaClient from '@/app/_lib/prismaClient'
 
 // メールアドレスをキーにしてUserを取得する
 export const fetchUserByEmail = async (email: string) => {

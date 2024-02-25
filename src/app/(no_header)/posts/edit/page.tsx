@@ -1,5 +1,5 @@
 import PostEditPage from '@/components/PostEditPage'
-import { fetchPostById } from '@/app/lib/data'
+import { fetchPostById } from '@/app/_lib/data'
 
 export default async function Page({
   searchParams

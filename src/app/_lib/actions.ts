@@ -4,9 +4,9 @@ import { z } from 'zod'
 import { auth } from '@/auth'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { fetchUserByEmail, fetchUserById } from '@/app/lib/data'
-import prismaClient from '@/app/lib/prismaClient'
-import { isEmpty } from '@/app/lib/utils'
+import { fetchUserByEmail, fetchUserById } from '@/app/_lib/data'
+import prismaClient from '@/app/_lib/prismaClient'
+import { isEmpty } from '@/app/_lib/utils'
 
 // 初回登録の入力スキーマ
 const UserFormSchema = z.object({
@@ -37,6 +37,11 @@ const PostFormSchema = z.object({
   published: z.boolean()
 })
 
+// 投稿の削除の入力スキーマ
+const DeletePostSchema = z.object({
+  postId: z.string()
+})
+
 export type AuthInitState = {
   errors?: {
     id?: string[]
@@ -52,6 +57,13 @@ export type PostState = {
     title?: string[]
     markdown?: string[]
     published?: string[]
+  }
+  message?: string | null
+}
+
+export type PostDeleteState = {
+  errors?: {
+    postId?: string[]
   }
   message?: string | null
 }
@@ -204,5 +216,57 @@ export const upsertPost = async (_prevState: PostState, formData: FormData) => {
     redirect(redirectPath)
   }
 
+  return {}
+}
+
+export const deletePost = async (
+  _prevState: PostDeleteState,
+  formData: FormData
+) => {
+  const session = await auth()
+  const sessionUser = session?.user
+  if (!sessionUser) {
+    return {
+      errors: {},
+      message: 'ログインしていません'
+    }
+  }
+  const userByEmail = await fetchUserByEmail(sessionUser.email ?? '')
+  if (!userByEmail) {
+    return {
+      errors: {},
+      message: '投稿にはユーザー登録が必要です'
+    }
+  }
+
+  const validateFields = DeletePostSchema.safeParse({
+    postId: formData.get('postId')
+  })
+
+  if (!validateFields.success) {
+    return {
+      errors: validateFields.error.flatten().fieldErrors,
+      message: ''
+    }
+  }
+
+  const { postId } = validateFields.data
+
+  try {
+    await prismaClient.post.delete({
+      where: {
+        id: postId,
+        user_id: userByEmail.id
+      }
+    })
+  } catch (error) {
+    console.error(error)
+    return {
+      message: '削除に失敗しました'
+    }
+  }
+
+  revalidatePath('/dashboard')
+  redirect('/dashboard')
   return {}
 }

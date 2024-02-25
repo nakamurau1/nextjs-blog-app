@@ -1,7 +1,9 @@
-import { FaPenFancy, FaPlay } from 'react-icons/fa6'
-import { fetchSessionUserPosts } from '@/app/lib/data'
-import { timeAgo } from '@/app/lib/utils'
+import { FaPenFancy, FaTrash } from 'react-icons/fa6'
+import { fetchSessionUserPosts } from '@/app/_lib/data'
+import { timeAgo } from '@/app/_lib/utils'
 import NextLink from 'next/link'
+import React from 'react'
+import DeletionForm from './_components/DeletionForm'
 
 export default async function Page() {
   const posts = await fetchSessionUserPosts()
@@ -27,11 +29,14 @@ export default async function Page() {
                   <div>
                     <NextLink
                       aria-label="編集する"
-                      className="h-9 w-9   p-2 flex items-center justify-center z-10 rounded-full text-gray-400 bg-gray-100 hover:bg-blue-50 hover:text-blue-500"
+                      className="h-9 w-9 p-2 flex items-center justify-center z-10 rounded-full text-gray-400 bg-gray-100 hover:bg-blue-50 hover:text-blue-500"
                       href={`/posts/edit?postId=${post.id}`}
                     >
                       <FaPenFancy width={21} height={21} />
                     </NextLink>
+                  </div>
+                  <div className="ml-5">
+                    <DeletionForm postId={post.id} />
                   </div>
                 </div>
                 <div className="flex items-center mt-2.5">

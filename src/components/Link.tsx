@@ -1,6 +1,6 @@
 import NextLink from 'next/link'
 import React from 'react'
-import { cn } from '@/app/lib/utils'
+import { cn } from '@/app/_lib/utils'
 
 interface Props extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   children?: React.ReactNode

@@ -1,7 +1,7 @@
 'use client'
 
 import { useFormState, useFormStatus } from 'react-dom'
-import { createUser } from '@/app/lib/actions'
+import { createUser } from '@/app/_lib/actions'
 
 const SubmitButton = () => {
   const { pending } = useFormStatus()
