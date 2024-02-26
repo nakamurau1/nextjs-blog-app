@@ -14,7 +14,9 @@ const UserFormSchema = z.object({
     .string()
     .min(1, { message: 'IDを入力してください' })
     .max(20, { message: 'IDは20文字以内である必要があります' })
-    .regex(/^[a-zA-Z0-9]+$/, { message: 'IDは英数字のみ使用できます' }),
+    .regex(/^[\w]+$/, {
+      message: 'IDは英数字とアンダースコアのみ使用できます'
+    }),
   email: z
     .string()
     .email({ message: '有効なメールアドレスを入力してください' }),
