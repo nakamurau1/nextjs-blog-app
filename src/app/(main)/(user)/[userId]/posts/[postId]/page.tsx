@@ -21,9 +21,9 @@ export default async function Page({
     <main className="flex-auto w-full">
       <article>
         {/* Profile */}
-        <aside className="sticky top-0 bg-white border-t-gray-100 border-b-gray-100 z-10">
-          <div className="max-w-3xl px-6">
-            <div className="flex items-start py-2">
+        <aside className="sticky top-0 bg-white border-b border-gray-200 z-10">
+          <div className="flex items-center justify-center sm:max-w-[800px] mx-auto">
+            <div className="flex items-center py-2 pl-5">
               <Avatar className="w-9 h-9">
                 <AvatarImage
                   src={user?.profile_image ?? ''}
@@ -31,17 +31,18 @@ export default async function Page({
                 />
                 <AvatarFallback>{user?.email ?? ''}</AvatarFallback>
               </Avatar>
-              <div className="flex-1 pl-7">
+              <div className="flex-1 ml-3">
                 <h1 className="flex text-sm font-semibold">
                   {user?.name ?? ''}
                 </h1>
               </div>
             </div>
+            <div className="flex-1" />
           </div>
         </aside>
         {/* Post Title */}
         <div className="py-12 text-center">
-          <div className="mx-w-[1200px] px-5">
+          <div className="max-w-[1200px] px-5">
             <h1 className="inline-block max-w-[780px] text-left font-bold text-xl">
               {post?.title}
             </h1>
@@ -53,7 +54,7 @@ export default async function Page({
           </div>
         </div>
         {/* Post Content */}
-        <div className="max-w-[1200px] px-5">
+        <div className="flex items-center justify-center sm:max-w-[800px] mx-auto">
           <section className="w-full">
             <div className="py-9 bg-white">
               <MarkdownView markdown={post?.content ?? ''} />
