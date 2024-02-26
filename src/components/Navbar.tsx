@@ -11,33 +11,6 @@ interface LinkItemProps {
   className?: string
 }
 
-const LinkItem = ({
-  href,
-  path,
-  target,
-  children,
-  className
-}: LinkItemProps) => {
-  const active = href == path
-  const inactiveColor = active
-    ? 'text-gray-900'
-    : 'text-gray-800 dark:text-white'
-
-  return (
-    <NextLink
-      href={href}
-      passHref
-      scroll
-      className={`py-2 px-4 rounded-lg ${inactiveColor} ${
-        active ? 'bg-teal-500' : ''
-      } ${className}`}
-      target={target}
-    >
-      {children}
-    </NextLink>
-  )
-}
-
 interface NavbarProps {
   path: string
 }

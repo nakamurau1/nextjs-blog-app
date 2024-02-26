@@ -5,6 +5,7 @@ import {
 } from '@/app/_lib/data'
 import { formatDate } from '@/app/_lib/utils'
 import MarkdownView from './_components/MarkdownView'
+import Link from 'next/link'
 
 export default async function Page({
   params
@@ -24,13 +25,15 @@ export default async function Page({
         <aside className="sticky top-0 bg-white border-b border-gray-200 z-10">
           <div className="flex items-center justify-center sm:max-w-[800px] mx-auto">
             <div className="flex items-center py-2 pl-5">
-              <Avatar className="w-9 h-9">
-                <AvatarImage
-                  src={user?.profile_image ?? ''}
-                  alt={user?.name ?? ''}
-                />
-                <AvatarFallback>{user?.email ?? ''}</AvatarFallback>
-              </Avatar>
+              <Link href={`/${user?.id}`}>
+                <Avatar className="w-9 h-9">
+                  <AvatarImage
+                    src={user?.profile_image ?? ''}
+                    alt={user?.name ?? ''}
+                  />
+                  <AvatarFallback>{user?.email ?? ''}</AvatarFallback>
+                </Avatar>
+              </Link>
               <div className="flex-1 ml-3">
                 <h1 className="flex text-sm font-semibold">
                   {user?.name ?? ''}

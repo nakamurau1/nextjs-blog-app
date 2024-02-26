@@ -7,18 +7,18 @@ import { ProfileSkeleton } from '@/app/_ui/skeltons'
 
 export default async function Page({ params }: { params: { userId: string } }) {
   return (
-    <main className="flex-auto w-full max-w-3xl px-4 py-4 mx-auto sm:px-6 md:py-6">
-      <div>
-        <div className=" max-w-[960px] px-6">
+    <main className="flex-auto w-full">
+      <div className="bg-white">
+        <div className="max-w-3xl px-6 mx-auto">
           <Suspense fallback={<ProfileSkeleton />}>
             <Profile userId={params.userId} />
           </Suspense>
         </div>
-        <div className=" min-h-screen">
-          <Suspense fallback={<div>Loading...</div>}>
-            <PostList userId={params.userId} className="pt-5" />
-          </Suspense>
-        </div>
+      </div>
+      <div className="min-h-screen max-w-3xl mx-auto px-4">
+        <Suspense fallback={<div>Loading...</div>}>
+          <PostList userId={params.userId} className="pt-5" />
+        </Suspense>
       </div>
     </main>
   )
@@ -46,8 +46,8 @@ type PostListProps = HTMLAttributes<HTMLDivElement> & {
   userId: string
 }
 
-const PostList = async (props: PostListProps) => {
-  const posts = await fetchPublishedPostsByUserId(props.userId)
+const PostList = async ({ userId, ...props }: PostListProps) => {
+  const posts = await fetchPublishedPostsByUserId(userId)
 
   return (
     <div {...props}>
@@ -59,7 +59,7 @@ const PostList = async (props: PostListProps) => {
               <div className="flex">
                 <div className="flex-1 text-xl font-bold overflow-hidden">
                   <NextLink
-                    href={`/${props.userId}/posts/${post.id}`}
+                    href={`/${userId}/posts/${post.id}`}
                     className="flex-1 text-xl font-bold overflow-hidden"
                   >
                     <div className="flex-1 text-xl font-bold overflow-hidden">

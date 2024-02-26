@@ -10,7 +10,11 @@ export default async function Page({
 }) {
   const postId = searchParams?.postId
   if (postId === undefined) {
-    return <PostEditPage />
+    return (
+      <Suspense fallback={<PostEditPageSkeleton />}>
+        <PostEditPage />
+      </Suspense>
+    )
   }
 
   return (

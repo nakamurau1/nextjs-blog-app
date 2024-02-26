@@ -8,8 +8,8 @@ import { PostsSkeleton } from '@/app/_ui/skeltons'
 
 export default async function Page() {
   return (
-    <main className="flex-auto w-full max-w-3xl px-4 py-4 mx-auto sm:px-6 md:py-6">
-      <div className="space-y-2">
+    <main className="flex-auto w-full bg-white">
+      <div className="space-y-2 max-w-3xl px-4 py-4 mx-auto sm:px-6 md:py-6">
         <h1 className=" text-2xl font-bold">記事の一覧</h1>
         <Suspense fallback={<PostsSkeleton />}>
           <PostList className="pt-5" />

@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} pb-8 bg-orange-50 text-slate-900 antialiased`}
+        className={`${inter.className} pb-8 bg-blue-50 text-slate-900 antialiased`}
       >
         <div className="flex flex-col justify-between w-full h-full min-h-screen">
           {children}

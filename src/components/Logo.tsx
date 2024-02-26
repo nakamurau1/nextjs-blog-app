@@ -27,9 +27,7 @@ const Logo = () => {
     <Link href="/">
       <LogoBox>
         <OctopusIcon />
-        <span className="ml-3 font-bold font-heading  text-gray-800">
-          Oct Blog
-        </span>
+        <span className="ml-3 font-bold font-heading  text-gray-800">octo</span>
       </LogoBox>
     </Link>
   )
