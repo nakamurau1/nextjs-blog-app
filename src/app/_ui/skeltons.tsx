@@ -63,3 +63,16 @@ export const PostEditPageSkeleton = () => {
     </div>
   )
 }
+
+export const ProfileSkeleton = () => {
+  return (
+    <>
+      <div className="flex items-start py-12">
+        <div className="w-28 h-28 rounded-full bg-gray-200"></div>
+        <div className="flex-1 pl-7">
+          <h1 className="flex h-[36px] w-[200px] bg-gray-200"></h1>
+        </div>
+      </div>
+    </>
+  )
+}

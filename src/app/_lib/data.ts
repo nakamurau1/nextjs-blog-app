@@ -99,3 +99,25 @@ export const fetchPostById = async (id: string) => {
     throw new Error('Failed to fetch post.')
   }
 }
+
+// UserIdをキーにしてPostを取得する
+export const fetchPublishedPostsByUserId = async (userId: string) => {
+  noStore()
+
+  try {
+    const posts = await prismaClient.post.findMany({
+      where: {
+        user_id: userId,
+        published: true
+      },
+      orderBy: {
+        updated_at: 'desc'
+      }
+    })
+
+    return posts
+  } catch (error) {
+    console.error('Database Error:', error)
+    throw new Error('Failed to fetch posts.')
+  }
+}

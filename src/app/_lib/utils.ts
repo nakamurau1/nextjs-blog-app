@@ -6,6 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 // 過去の日時からの経過時間を日本語で返す
+// ただし、1年以上前の場合は「yyyy/mm/dd」の形式で返す
 export function timeAgo(date: Date | null) {
   if (!date) {
     return ''
@@ -36,8 +37,7 @@ export function timeAgo(date: Date | null) {
   if (months < 12) {
     return `${months}ヶ月前`
   }
-  const years = Math.floor(months / 12)
-  return `${years}年前`
+  return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
 }
 
 // nullまたはundefinedまたは空文字列の場合にtrueを返す
