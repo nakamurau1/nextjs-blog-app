@@ -40,6 +40,18 @@ export function timeAgo(date: Date | null) {
   return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
 }
 
+// Dateをyyyy/mm/ddの形式の文字列に変換する
+export function formatDate(date: Date | null | undefined) {
+  if (!date) {
+    return ''
+  }
+
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+  return `${year}/${month}/${day}`
+}
+
 // nullまたはundefinedまたは空文字列の場合にtrueを返す
 export function isEmpty(value: any) {
   return value === null || value === undefined || value === ''

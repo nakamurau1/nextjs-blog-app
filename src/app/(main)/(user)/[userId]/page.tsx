@@ -6,20 +6,21 @@ import { timeAgo } from '@/app/_lib/utils'
 import { ProfileSkeleton } from '@/app/_ui/skeltons'
 
 export default async function Page({ params }: { params: { userId: string } }) {
-  const user = await fetchUserById(params.userId)
   return (
-    <div>
-      <div className=" max-w-[960px] px-6">
-        <Suspense fallback={<ProfileSkeleton />}>
-          <Profile userId={params.userId} />
-        </Suspense>
+    <main className="flex-auto w-full max-w-3xl px-4 py-4 mx-auto sm:px-6 md:py-6">
+      <div>
+        <div className=" max-w-[960px] px-6">
+          <Suspense fallback={<ProfileSkeleton />}>
+            <Profile userId={params.userId} />
+          </Suspense>
+        </div>
+        <div className=" min-h-screen">
+          <Suspense fallback={<div>Loading...</div>}>
+            <PostList userId={params.userId} className="pt-5" />
+          </Suspense>
+        </div>
       </div>
-      <div className=" min-h-screen">
-        <Suspense fallback={<div>Loading...</div>}>
-          <PostList userId={user?.id ?? ''} className="pt-5" />
-        </Suspense>
-      </div>
-    </div>
+    </main>
   )
 }
 

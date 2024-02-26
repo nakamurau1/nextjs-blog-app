@@ -121,3 +121,26 @@ export const fetchPublishedPostsByUserId = async (userId: string) => {
     throw new Error('Failed to fetch posts.')
   }
 }
+
+// UserIdとPostIdをキーにして公開済みのPostを取得する
+export const fetchPublishedPostByUserIdAndPostId = async (
+  userId: string,
+  postId: string
+) => {
+  noStore()
+
+  try {
+    const post = await prismaClient.post.findUnique({
+      where: {
+        id: postId,
+        user_id: userId,
+        published: true
+      }
+    })
+
+    return post
+  } catch (error) {
+    console.error('Database Error:', error)
+    throw new Error('Failed to fetch post.')
+  }
+}
