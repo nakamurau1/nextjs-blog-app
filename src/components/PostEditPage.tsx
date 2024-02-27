@@ -100,12 +100,6 @@ export default function Page({ post }: { post?: Post | null }) {
 						{mode === "edit" ? (
 							// 編集モード
 							<div className="flex-1">
-								<TextareaAutosize
-									placeholder="Write in Markdown..."
-									className="w-full min-h-[500px] rounded-lg border-none outline-0 resize-none p-5"
-									spellCheck={false}
-									{...register("markdown")}
-								/>
 								<div aria-live="polite" aria-atomic="true">
 									{state?.errors?.markdown?.map((error: string) => (
 										<p className="mt-2 text-sm text-red-500 mb-5" key={error}>
@@ -113,6 +107,12 @@ export default function Page({ post }: { post?: Post | null }) {
 										</p>
 									))}
 								</div>
+								<TextareaAutosize
+									placeholder="Write in Markdown..."
+									className="w-full min-h-[500px] rounded-lg border-none outline-0 resize-none p-5"
+									spellCheck={false}
+									{...register("markdown")}
+								/>
 							</div>
 						) : (
 							// プレビューモード
