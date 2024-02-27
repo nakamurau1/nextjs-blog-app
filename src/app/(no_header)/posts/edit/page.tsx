@@ -1,31 +1,31 @@
-import PostEditPage from '@/components/PostEditPage'
-import { fetchPostById } from '@/app/_lib/data'
-import { Suspense } from 'react'
-import { PostEditPageSkeleton } from '@/app/_ui/skeltons'
+import PostEditPage from "@/components/PostEditPage";
+import { fetchPostById } from "@/app/_lib/data";
+import { Suspense } from "react";
+import { PostEditPageSkeleton } from "@/app/_ui/skeltons";
 
 export default async function Page({
-  searchParams
+	searchParams,
 }: {
-  searchParams?: { postId?: string }
+	searchParams?: { postId?: string };
 }) {
-  const postId = searchParams?.postId
-  if (postId === undefined) {
-    return (
-      <Suspense fallback={<PostEditPageSkeleton />}>
-        <PostEditPage />
-      </Suspense>
-    )
-  }
+	const postId = searchParams?.postId;
+	if (postId === undefined) {
+		return (
+			<Suspense fallback={<PostEditPageSkeleton />}>
+				<PostEditPage />
+			</Suspense>
+		);
+	}
 
-  return (
-    <Suspense fallback={<PostEditPageSkeleton />}>
-      <PostEditPageWrapper postId={postId} />
-    </Suspense>
-  )
+	return (
+		<Suspense fallback={<PostEditPageSkeleton />}>
+			<PostEditPageWrapper postId={postId} />
+		</Suspense>
+	);
 }
 
 const PostEditPageWrapper = async ({ postId }: { postId: string }) => {
-  const post = await fetchPostById(postId ?? '')
+	const post = await fetchPostById(postId ?? "");
 
-  return <PostEditPage post={post} />
-}
+	return <PostEditPage post={post} />;
+};

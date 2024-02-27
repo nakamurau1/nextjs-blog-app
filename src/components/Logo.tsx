@@ -1,8 +1,8 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
-import styled from '@emotion/styled'
-import OctopusIcon from '@/components/icons/OctopusIcon'
+import Link from "next/link";
+import styled from "@emotion/styled";
+import OctopusIcon from "@/components/icons/OctopusIcon";
 
 const LogoBox = styled.span`
   font-weight: bold;
@@ -19,17 +19,17 @@ const LogoBox = styled.span`
   &:hover > svg {
     transform: rotate(20deg);
   }
-`
+`;
 
 const Logo = () => {
-  return (
-    <Link href="/">
-      <LogoBox>
-        <OctopusIcon />
-        <span className="ml-3 font-bold font-heading  text-gray-800">octo</span>
-      </LogoBox>
-    </Link>
-  )
-}
+	return (
+		<Link href="/">
+			<LogoBox>
+				<OctopusIcon />
+				<span className="ml-3 font-bold font-heading  text-gray-800">octo</span>
+			</LogoBox>
+		</Link>
+	);
+};
 
-export default Logo
+export default Logo;

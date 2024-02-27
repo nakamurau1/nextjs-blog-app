@@ -1,1 +1,1 @@
-export const DOMAIN = 'https://next-auth-example.vercel.app'
+export const DOMAIN = "https://next-auth-example.vercel.app";
