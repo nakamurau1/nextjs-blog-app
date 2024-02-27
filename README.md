@@ -1,36 +1,28 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Next.js Blog App
 
-## Getting Started
+Next.js の App Router を理解するために作ったシンプルなブログサービスです。
+markdown を用いて記事を投稿し、共有することができます。
 
-First, run the development server:
+https://nextjs-blog-app-gamma-one.vercel.app/
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 技術スタック
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+このプロジェクトでは以下の技術が使用されています：
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Next.js (14.1.0)
+- React (18.x)
+- Prisma (5.10.1) - データモデルとデータベースの管理
+- Next Auth (5.0.0-beta.11) - 認証
+- Tailwind CSS - スタイリング
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## プロジェクトのセットアップ
 
-## Learn More
+このプロジェクトは Vercel にデプロイすることを想定していますが、現時点ではローカル環境での実行はサポートしていません。
+将来的にローカルでのセットアップ手順を提供するかもしれません。
 
-To learn more about Next.js, take a look at the following resources:
+### Vercel でのデプロイ
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+1. このリポジトリを Fork または Clone します。
+2. Vercel にログインし（アカウントがなければ作成）、新しいプロジェクトを作成します。
+3. プロジェクトソースとしてこのリポジトリを選択します。
+4. 必要に応じて環境変数を設定し、デプロイします。
