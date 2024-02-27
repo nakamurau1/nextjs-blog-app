@@ -6,17 +6,30 @@ import {
 import { formatDate } from '@/app/_lib/utils'
 import MarkdownView from './_components/MarkdownView'
 import Link from 'next/link'
+import { Suspense } from 'react'
 
 export default async function Page({
   params
 }: {
   params: { userId: string; postId: string }
 }) {
-  const user = await fetchUserById(params.userId)
-  const post = await fetchPublishedPostByUserIdAndPostId(
-    params.userId,
-    params.postId
+  return (
+    <main className="flex-auto w-full">
+      <Suspense fallback={<div>Loading...</div>}>
+        <ArticleView userId={params.userId} postId={params.postId} />
+      </Suspense>
+    </main>
   )
+}
+
+interface ArticleViewProps {
+  userId: string
+  postId: string
+}
+
+const ArticleView = async ({ userId, postId }: ArticleViewProps) => {
+  const user = await fetchUserById(userId)
+  const post = await fetchPublishedPostByUserIdAndPostId(userId, postId)
 
   return (
     <main className="flex-auto w-full">
