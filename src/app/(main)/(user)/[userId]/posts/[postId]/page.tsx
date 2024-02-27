@@ -36,7 +36,7 @@ const ArticleView = async ({ userId, postId }: ArticleViewProps) => {
       <article>
         {/* Profile */}
         <aside className="sticky top-0 bg-white border-b border-gray-200 z-10">
-          <div className="flex items-center justify-center sm:max-w-[800px] mx-auto">
+          <div className="flex items-center justify-center sm:max-w-3xl mx-auto">
             <div className="flex items-center py-2 pl-5">
               <Link href={`/${user?.id}`}>
                 <Avatar className="w-9 h-9">
@@ -70,7 +70,7 @@ const ArticleView = async ({ userId, postId }: ArticleViewProps) => {
           </div>
         </div>
         {/* Post Content */}
-        <div className="flex items-center justify-center sm:max-w-[800px] mx-auto">
+        <div className="flex items-center justify-center sm:max-w-3xl mx-auto">
           <section className="w-full">
             <div className="py-9 bg-white">
               <MarkdownView markdown={post?.content ?? ''} />

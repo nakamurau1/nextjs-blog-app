@@ -219,7 +219,7 @@ const Header = ({
   }
 
   return (
-    <header className="sticky top-0 border-b border-solid border-gray-100 z-50">
+    <header className="sticky top-0 border-b border-solid border-gray-100 z-50 bg-blue-50">
       <div className="flex items-center justify-between h-16 px-10">
         <Link href="/dashboard">
           <GoArrowLeft className=" text-gray-500 text-2xl" />

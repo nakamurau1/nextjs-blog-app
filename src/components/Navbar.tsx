@@ -18,7 +18,7 @@ interface NavbarProps {
 const Navbar = ({ path }: NavbarProps) => {
   return (
     <nav className="flex items-center space-x-2 lg:space-x-6">
-      <div className="container mx-auto flex p-2 justify-between items-center max-w-screen-md">
+      <div className="container mx-auto flex py-2 px-0 justify-between items-center max-w-screen-md">
         <div className="flex items-center mr-5">
           <h1 className="text-lg font-semibold">
             <Logo />
