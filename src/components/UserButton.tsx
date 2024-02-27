@@ -6,11 +6,13 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from '@/components/DropDownMenu'
 import { SignIn, SignOut } from '@/components/AuthComponents'
 import Link from 'next/link'
+import { MdOutlineArticle, MdLogout } from 'react-icons/md'
 
 export default async function UserButton() {
   const session = await auth()
@@ -33,8 +35,8 @@ export default async function UserButton() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>
-        <DropdownMenuLabel className="font-normal">
-          <Link href={`/${userByEmail?.id}`}>
+        <DropdownMenuItem className="font-normal" asChild>
+          <Link href={`/${userByEmail?.id}`} className="cursor-pointer">
             <div className="flex flex-col space-y-1">
               <p className="text-sm font-medium leading-none">
                 {session.user.name}
@@ -44,13 +46,15 @@ export default async function UserButton() {
               </p>
             </div>
           </Link>
-        </DropdownMenuLabel>
-        <DropdownMenuItem>
-          <Link href="/dashboard" className="w-full text-center">
-            ダッシュボード
+        </DropdownMenuItem>
+        <DropdownMenuItem className="text-base" asChild>
+          <Link href="/dashboard" className="w-full text-center cursor-pointer">
+            <MdOutlineArticle />
+            <div className="ml-2">ダッシュボード</div>
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem className="text-base" asChild>
           <SignOut />
         </DropdownMenuItem>
       </DropdownMenuContent>

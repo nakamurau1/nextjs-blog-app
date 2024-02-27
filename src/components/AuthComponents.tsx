@@ -1,5 +1,6 @@
 import { Button } from '@/components/Button'
 import { signIn, signOut } from '@/auth'
+import { MdLogout } from 'react-icons/md'
 
 export function SignIn({
   provider,
@@ -26,10 +27,15 @@ export function SignOut(props: React.ComponentPropsWithRef<typeof Button>) {
         'use server'
         await signOut()
       }}
-      className="w-full"
+      className="flex w-full items-center text-left justify-start"
     >
-      <Button className="w-full p-0" type="submit" {...props}>
-        Sign Out
+      <Button
+        className="flex w-full text-left items-center"
+        type="submit"
+        {...props}
+      >
+        <MdLogout className="inline-flex" />
+        <span className="flex-1 ml-2">Sign Out</span>
       </Button>
     </form>
   )
