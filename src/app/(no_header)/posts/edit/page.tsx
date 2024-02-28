@@ -1,7 +1,8 @@
-import PostEditPage from "@/components/PostEditPage";
 import { fetchPostById } from "@/app/_lib/data";
-import { Suspense } from "react";
 import { PostEditPageSkeleton } from "@/app/_ui/skeltons";
+import PostEditPage from "@/components/PostEditPage";
+import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
 export default async function Page({
 	searchParams,
@@ -26,6 +27,10 @@ export default async function Page({
 
 const PostEditPageWrapper = async ({ postId }: { postId: string }) => {
 	const post = await fetchPostById(postId ?? "");
+
+	if (!post) {
+		notFound();
+	}
 
 	return <PostEditPage post={post} />;
 };

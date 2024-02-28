@@ -1,12 +1,13 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/Avatar";
 import {
-	fetchUserById,
 	fetchPublishedPostByUserIdAndPostId,
+	fetchUserById,
 } from "@/app/_lib/data";
 import { formatDate } from "@/app/_lib/utils";
-import MarkdownView from "./_components/MarkdownView";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/Avatar";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import MarkdownView from "./_components/MarkdownView";
 
 export default async function Page({
 	params,
@@ -30,6 +31,10 @@ interface ArticleViewProps {
 const ArticleView = async ({ userId, postId }: ArticleViewProps) => {
 	const user = await fetchUserById(userId);
 	const post = await fetchPublishedPostByUserIdAndPostId(userId, postId);
+
+	if (!user || !post) {
+		notFound();
+	}
 
 	return (
 		<main className="flex-auto w-full">

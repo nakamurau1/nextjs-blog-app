@@ -1,9 +1,10 @@
-import { fetchUserById, fetchPublishedPostsByUserId } from "@/app/_lib/data";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/Avatar";
-import NextLink from "next/link";
-import { Suspense, HTMLAttributes } from "react";
+import { fetchPublishedPostsByUserId, fetchUserById } from "@/app/_lib/data";
 import { timeAgo } from "@/app/_lib/utils";
 import { ProfileSkeleton } from "@/app/_ui/skeltons";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/Avatar";
+import NextLink from "next/link";
+import { notFound } from "next/navigation";
+import { HTMLAttributes, Suspense } from "react";
 
 export default async function Page({ params }: { params: { userId: string } }) {
 	return (
@@ -26,6 +27,10 @@ export default async function Page({ params }: { params: { userId: string } }) {
 
 const Profile = async (props: { userId: string }) => {
 	const user = await fetchUserById(props.userId);
+
+	if (!user) {
+		notFound();
+	}
 
 	return (
 		<>
