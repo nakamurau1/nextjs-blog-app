@@ -27,4 +27,13 @@ https://nextjs-blog-app-gamma-one.vercel.app/
 3. プロジェクトソースとしてこのリポジトリを選択します。
 4. 必要に応じて環境変数を設定し、デプロイします。
 
+### Takumi Guard
+
+依存パッケージの取得には Takumi Guard を利用します。
+Vercel などのデプロイ環境では、以下の環境変数を設定してください。
+
+```bash
+TAKUMI_GUARD_NPM_TOKEN=your-takumi-guard-token
+```
+
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fhello-world)
