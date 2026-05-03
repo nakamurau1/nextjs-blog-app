@@ -72,8 +72,8 @@ export default function Page({ post }: { post?: Post | null }) {
 				published={published}
 				newMode={isEmpty(post?.id)} // post.idが空の場合は新規作成モード
 			/>
-			<main className="flex-auto w-full max-w-4xl px-4 py-2 mx-auto">
-				<div className="flex flex-col items-center justify-center p-6">
+			<main className="flex-auto w-full max-w-5xl px-4 py-8 mx-auto sm:px-6">
+				<div className="flex flex-col items-center justify-center">
 					<div aria-live="polite" aria-atomic="true">
 						{state.message && (
 							<p className="mt-2 text-sm text-red-500">{state.message}</p>
@@ -81,7 +81,7 @@ export default function Page({ post }: { post?: Post | null }) {
 					</div>
 					<div className="w-full">
 						<TextareaAutosize
-							className="w-full text-3xl bg-transparent border-none outline-0 resize-none mb-5 h-9"
+							className="w-full text-4xl font-bold leading-tight bg-transparent border-none outline-0 resize-none mb-6 min-h-12 text-slate-950 placeholder:text-slate-300"
 							placeholder="Title"
 							spellCheck={false}
 							maxLength={100}
@@ -96,10 +96,10 @@ export default function Page({ post }: { post?: Post | null }) {
 							))}
 						</div>
 					</div>
-					<div className="flex w-full">
+					<div className="flex w-full flex-col gap-4 sm:flex-row">
 						{mode === "edit" ? (
 							// 編集モード
-							<div className="flex-1">
+							<div className="flex-1 rounded-lg border border-slate-200 bg-white shadow-sm">
 								<div aria-live="polite" aria-atomic="true">
 									{state?.errors?.markdown?.map((error: string) => (
 										<p className="mt-2 text-sm text-red-500 mb-5" key={error}>
@@ -109,7 +109,7 @@ export default function Page({ post }: { post?: Post | null }) {
 								</div>
 								<TextareaAutosize
 									placeholder="Write in Markdown..."
-									className="w-full min-h-[500px] rounded-lg border-none outline-0 resize-none p-5"
+									className="w-full min-h-[560px] rounded-lg border-none outline-0 resize-none p-6 leading-7 text-slate-800 placeholder:text-slate-300"
 									spellCheck={false}
 									{...register("markdown")}
 								/>
@@ -118,9 +118,9 @@ export default function Page({ post }: { post?: Post | null }) {
 							// プレビューモード
 							<>
 								<div
-									className="znc flex-1 w-full min-h-[800px] rounded-lg border-none outline-0 resize-none p-5 bg-white relative
+									className="znc flex-1 w-full min-h-[800px] rounded-lg border border-slate-200 outline-0 resize-none p-6 bg-white shadow-sm relative
             before:absolute before:top-0 before:right-0 before:inline-block before:p-2 before:text-xs before:font-bold
-           before:text-white before:content-['Preview'] before:bg-gray-400 before:rounded-md"
+           before:text-white before:content-['Preview'] before:bg-slate-900 before:rounded-bl-md before:rounded-tr-md"
 									//  biome-ignore lint:
 									dangerouslySetInnerHTML={{
 										__html: html,
@@ -132,7 +132,7 @@ export default function Page({ post }: { post?: Post | null }) {
 						)}
 						{/* 投稿ID */}
 						<input type="hidden" {...register("id")} />
-						<div className="max-w-20 min-w-20 ml-5 relative">
+						<div className="relative max-w-20 min-w-20">
 							<EditModeButton mode={mode} handleModeChange={handleModeChange} />
 						</div>
 					</div>
@@ -153,17 +153,17 @@ const EditModeButton = ({
 	return (
 		<div
 			className={clsx(
-				`inline-flex rounded-full bg-white shadow-md p-1 relative
-        before:z-0 before:absolute before:w-9 before:rounded-full before:top-1 before:bottom-1  before:transition before:duration-200`,
+				`inline-flex rounded-md border border-slate-200 bg-white shadow-sm p-1 relative
+        before:z-0 before:absolute before:w-9 before:rounded-md before:top-1 before:bottom-1 before:transition before:duration-200`,
 				{
-					"before:left-1 before:bg-gray-100": mode === "edit",
-					"before:bg-blue-500 before:translate-x-10": mode === "preview",
+					"before:left-1 before:bg-slate-100": mode === "edit",
+					"before:bg-slate-950 before:translate-x-10": mode === "preview",
 				},
 			)}
 		>
 			<button
 				aria-label="編集モード"
-				className="h-9 w-9  text-gray-400 p-2 flex items-center justify-center z-10"
+				className="h-9 w-9 text-slate-400 p-2 flex items-center justify-center z-10"
 				onClick={() => {
 					handleModeChange("edit");
 				}}
@@ -174,7 +174,7 @@ const EditModeButton = ({
 			<button
 				aria-label="プレビュー"
 				className={clsx(
-					"h-9 w-9 text-gray-400 border rounded-full border-transparent p-2 flex items-center justify-center ml-1 z-10",
+					"h-9 w-9 text-slate-400 border rounded-md border-transparent p-2 flex items-center justify-center ml-1 z-10",
 					{
 						"text-white": mode === "preview",
 					},
@@ -219,10 +219,10 @@ const Header = ({
 	}
 
 	return (
-		<header className="sticky top-0 border-b border-solid border-gray-100 z-50 bg-blue-50">
-			<div className="flex items-center justify-between h-16 px-10">
+		<header className="sticky top-0 border-b border-solid border-slate-200 z-50 bg-white/90 backdrop-blur">
+			<div className="flex items-center justify-between h-16 px-4 sm:px-10">
 				<Link href="/dashboard">
-					<GoArrowLeft className=" text-gray-500 text-2xl" />
+					<GoArrowLeft className="text-slate-500 text-2xl" />
 				</Link>
 				<div className="flex items-center">
 					<Switch control={control} name="published" label="公開する" />

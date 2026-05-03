@@ -23,10 +23,10 @@ const LogoBox = styled.span`
 
 const Logo = () => {
 	return (
-		<Link href="/">
+		<Link href="/" aria-label="octo ホーム">
 			<LogoBox>
 				<OctopusIcon />
-				<span className="ml-3 font-bold font-heading  text-gray-800">octo</span>
+				<span className="ml-3 font-bold font-heading text-slate-900">octo</span>
 			</LogoBox>
 		</Link>
 	);

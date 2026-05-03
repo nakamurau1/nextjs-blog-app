@@ -16,7 +16,7 @@ export const Link = React.forwardRef<HTMLAnchorElement, Props>(
 				ref={ref}
 				className={cn(
 					mode === "primary" &&
-						"bg-blue-400 hover:bg-blue-500 text-white text-sm font-bold py-2 px-4 rounded-full",
+						"bg-slate-950 hover:bg-slate-800 text-white text-sm font-bold py-2.5 px-4 rounded-md shadow-sm transition",
 					className,
 				)}
 				{...rest}

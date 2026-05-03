@@ -15,10 +15,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 				{...rest}
 				className={cn(
 					mode === "primary" &&
-						`bg-blue-400 text-white hover:bg-blue-500 text-sm font-bold py-2 px-4 rounded-full
-            disabled:opacity-70 disabled:cursor-auto disabled:hover:bg-blue-400`,
+						`bg-slate-950 text-white hover:bg-slate-800 text-sm font-bold py-2.5 px-4 rounded-md shadow-sm transition
+            disabled:opacity-70 disabled:cursor-auto disabled:hover:bg-slate-950`,
 					mode === "secondary" &&
-						`bg-gray-50 text-black border-gray-300 hover:bg-gray-100 text-sm font-bold py-2 px-4 rounded-full border
+						`bg-white text-slate-900 border-slate-200 hover:bg-slate-50 text-sm font-bold py-2.5 px-4 rounded-md border shadow-sm transition
             disabled:opacity-70 disabled:cursor-auto`,
 					className,
 				)}

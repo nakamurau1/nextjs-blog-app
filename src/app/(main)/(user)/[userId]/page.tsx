@@ -5,20 +5,21 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/Avatar";
 import NextLink from "next/link";
 import { notFound } from "next/navigation";
 import { HTMLAttributes, Suspense } from "react";
+import { FaArrowRightLong } from "react-icons/fa6";
 
 export default async function Page({ params }: { params: { userId: string } }) {
 	return (
 		<main className="flex-auto w-full">
-			<div className="bg-white">
-				<div className="max-w-3xl px-6 mx-auto">
+			<div className="border-b border-slate-200 bg-white">
+				<div className="max-w-5xl px-4 mx-auto sm:px-6">
 					<Suspense fallback={<ProfileSkeleton />}>
 						<Profile userId={params.userId} />
 					</Suspense>
 				</div>
 			</div>
-			<div className="min-h-screen max-w-3xl mx-auto px-4">
+			<div className="min-h-screen max-w-5xl mx-auto px-4 sm:px-6">
 				<Suspense fallback={<div>Loading...</div>}>
-					<PostList userId={params.userId} className="pt-5" />
+					<PostList userId={params.userId} className="py-8" />
 				</Suspense>
 			</div>
 		</main>
@@ -34,13 +35,19 @@ const Profile = async (props: { userId: string }) => {
 
 	return (
 		<>
-			<div className="flex items-start py-12">
-				<Avatar className="w-28 h-28">
+			<div className="flex flex-col gap-6 py-12 sm:flex-row sm:items-center">
+				<Avatar className="w-28 h-28 border-4 border-white shadow-md ring-1 ring-slate-200">
 					<AvatarImage src={user?.profile_image ?? ""} alt={user?.name ?? ""} />
 					<AvatarFallback>{user?.email ?? ""}</AvatarFallback>
 				</Avatar>
-				<div className="flex-1 pl-7">
-					<h1 className="flex text-2xl font-bold">{user?.name ?? ""}</h1>
+				<div className="flex-1">
+					<p className="mb-2 text-sm font-semibold text-teal-700">Author</p>
+					<h1 className="text-3xl font-bold text-slate-950 sm:text-4xl">
+						{user?.name ?? ""}
+					</h1>
+					<p className="mt-3 max-w-xl text-sm leading-7 text-slate-600">
+						公開された記事を新しい順に表示しています。
+					</p>
 				</div>
 			</div>
 		</>
@@ -56,32 +63,40 @@ const PostList = async ({ userId, ...props }: PostListProps) => {
 
 	return (
 		<div {...props}>
-			{
-				/* ここに記事の一覧を表示する */
-				posts.map((post) => {
+			<div className="mb-4 flex items-end justify-between">
+				<h2 className="text-lg font-bold text-slate-950">Articles</h2>
+				<p className="text-sm text-slate-500">{posts.length} posts</p>
+			</div>
+			<div className="grid gap-3">
+				{posts.map((post) => {
 					return (
-						<article className="py-5 border-b border-gray-100" key={post.id}>
-							<div className="flex">
-								<div className="flex-1 text-xl font-bold overflow-hidden">
-									<NextLink
-										href={`/${userId}/posts/${post.id}`}
-										className="flex-1 text-xl font-bold overflow-hidden"
-									>
-										<div className="flex-1 text-xl font-bold overflow-hidden">
-											{post.title}
-										</div>
-									</NextLink>
+						<NextLink
+							href={`/${userId}/posts/${post.id}`}
+							className="group rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md"
+							key={post.id}
+						>
+							<article className="flex items-start justify-between gap-4">
+								<div className="min-w-0 flex-1">
+									<h3 className="truncate text-xl font-bold text-slate-950 group-hover:text-teal-700">
+										{post.title}
+									</h3>
+									<div className="mt-3 flex items-center">
+										<time className="text-xs font-medium text-slate-500">
+											{timeAgo(post.updated_at)}
+										</time>
+									</div>
 								</div>
-							</div>
-							<div className="flex items-center mt-2.5">
-								<time className="text-xs text-gray-500">
-									{timeAgo(post.updated_at)}
-								</time>
-							</div>
-						</article>
+								<FaArrowRightLong className="mt-1 shrink-0 text-slate-300 transition group-hover:translate-x-1 group-hover:text-teal-700" />
+							</article>
+						</NextLink>
 					);
-				})
-			}
+				})}
+				{posts.length === 0 && (
+					<div className="rounded-lg border border-dashed border-slate-300 bg-white p-8 text-center text-sm text-slate-500">
+						まだ公開記事はありません。
+					</div>
+				)}
+			</div>
 		</div>
 	);
 };

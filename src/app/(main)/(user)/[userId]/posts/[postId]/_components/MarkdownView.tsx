@@ -9,7 +9,7 @@ const MarkdownView = ({ markdown }: { markdown: string }) => {
 
 	return (
 		<div
-			className="znc flex-1 w-full min-h-[300px] rounded-lg border-none outline-0 resize-none p-5 bg-white relative"
+			className="znc flex-1 w-full min-h-[300px] border-none bg-white px-0 py-2 outline-0 resize-none relative"
 			// biome-ignore lint:
 			dangerouslySetInnerHTML={{
 				__html: html,
