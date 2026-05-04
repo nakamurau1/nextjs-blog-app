@@ -13,12 +13,14 @@ import MarkdownView from "./_components/MarkdownView";
 export default async function Page({
 	params,
 }: {
-	params: { userId: string; postId: string };
+	params: Promise<{ userId: string; postId: string }>;
 }) {
+	const { userId, postId } = await params;
+
 	return (
 		<main className="flex-auto w-full">
 			<Suspense fallback={<div>Loading...</div>}>
-				<ArticleView userId={params.userId} postId={params.postId} />
+				<ArticleView userId={userId} postId={postId} />
 			</Suspense>
 		</main>
 	);
