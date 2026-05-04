@@ -41,7 +41,7 @@ const ArticleView = async ({ userId, postId }: ArticleViewProps) => {
 
 	return (
 		<main className="flex-auto w-full">
-			<article className="bg-slate-50">
+			<article className="bg-white">
 				{/* Profile */}
 				<aside className="sticky top-16 bg-white/90 border-b border-slate-200 z-10 backdrop-blur">
 					<div className="flex items-center justify-between max-w-3xl px-4 mx-auto sm:px-6">
