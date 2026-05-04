@@ -7,19 +7,25 @@ import { notFound } from "next/navigation";
 import { HTMLAttributes, Suspense } from "react";
 import { FaArrowRightLong } from "react-icons/fa6";
 
-export default async function Page({ params }: { params: { userId: string } }) {
+export default async function Page({
+	params,
+}: {
+	params: Promise<{ userId: string }>;
+}) {
+	const { userId } = await params;
+
 	return (
 		<main className="flex-auto w-full">
 			<div className="border-b border-slate-200 bg-white">
 				<div className="max-w-5xl px-4 mx-auto sm:px-6">
 					<Suspense fallback={<ProfileSkeleton />}>
-						<Profile userId={params.userId} />
+						<Profile userId={userId} />
 					</Suspense>
 				</div>
 			</div>
 			<div className="min-h-screen max-w-5xl mx-auto px-4 sm:px-6">
 				<Suspense fallback={<div>Loading...</div>}>
-					<PostList userId={params.userId} className="py-8" />
+					<PostList userId={userId} className="py-8" />
 				</Suspense>
 			</div>
 		</main>

@@ -7,9 +7,9 @@ import { Suspense } from "react";
 export default async function Page({
 	searchParams,
 }: {
-	searchParams?: { postId?: string };
+	searchParams?: Promise<{ postId?: string }>;
 }) {
-	const postId = searchParams?.postId;
+	const { postId } = (await searchParams) ?? {};
 	if (postId === undefined) {
 		return (
 			<Suspense fallback={<PostEditPageSkeleton />}>
